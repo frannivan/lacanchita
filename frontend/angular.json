@@ -41,65 +41,64 @@
       "architect": {
         "build": {
           "builder": "@angular/build:application",
-          "options": {
-            "browser": "src/main.ts",
-            "outputPath": "dist/frontend",
-            "tsConfig": "tsconfig.app.json",
-            "assets": [
+          "browser": "src/main.ts",
+          "outputPath": "dist",
+          "tsConfig": "tsconfig.app.json",
+          "assets": [
+            {
+              "glob": "**/*",
+              "input": "public"
+            }
+          ],
+          "styles": [
+            "src/styles.css"
+          ]
+        },
+        "configurations": {
+          "production": {
+            "budgets": [
               {
-                "glob": "**/*",
-                "input": "public"
+                "type": "initial",
+                "maximumWarning": "500kB",
+                "maximumError": "1MB"
+              },
+              {
+                "type": "anyComponentStyle",
+                "maximumWarning": "4kB",
+                "maximumError": "8kB"
               }
             ],
-            "styles": [
-              "src/styles.css"
-            ]
+            "outputHashing": "all"
           },
-          "configurations": {
-            "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
-                }
-              ],
-              "outputHashing": "all"
-            },
-            "development": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve": {
-          "builder": "@angular/build:dev-server",
-          "configurations": {
-            "production": {
-              "buildTarget": "frontend:build:production"
-            },
-            "development": {
-              "buildTarget": "frontend:build:development"
-            }
-          },
-          "defaultConfiguration": "development",
-          "options": {
-            "proxyConfig": "src/proxy.conf.json",
-            "allowedHosts": [
-              ".trycloudflare.com",
-              "localhost",
-              "127.0.0.1"
-            ]
+          "development": {
+            "optimization": false,
+            "extractLicenses": false,
+            "sourceMap": true
           }
+        },
+        "defaultConfiguration": "production"
+      },
+      "serve": {
+        "builder": "@angular/build:dev-server",
+        "configurations": {
+          "production": {
+            "buildTarget": "frontend:build:production"
+          },
+          "development": {
+            "buildTarget": "frontend:build:development"
+          }
+        },
+        "defaultConfiguration": "development",
+        "options": {
+          "proxyConfig": "src/proxy.conf.json",
+          "allowedHosts": [
+            ".trycloudflare.com",
+            "localhost",
+            "127.0.0.1"
+          ]
         }
       }
     }
   }
+}
 }
