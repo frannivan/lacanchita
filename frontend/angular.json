@@ -41,64 +41,65 @@
       "architect": {
         "build": {
           "builder": "@angular/build:application",
-          "browser": "src/main.ts",
-          "outputPath": "dist",
-          "tsConfig": "tsconfig.app.json",
-          "assets": [
-            {
-              "glob": "**/*",
-              "input": "public"
-            }
-          ],
-          "styles": [
-            "src/styles.css"
-          ]
-        },
-        "configurations": {
-          "production": {
-            "budgets": [
+          "options": {
+            "browser": "src/main.ts",
+            "outputPath": "dist",
+            "tsConfig": "tsconfig.app.json",
+            "assets": [
               {
-                "type": "initial",
-                "maximumWarning": "500kB",
-                "maximumError": "1MB"
-              },
-              {
-                "type": "anyComponentStyle",
-                "maximumWarning": "4kB",
-                "maximumError": "8kB"
+                "glob": "**/*",
+                "input": "public"
               }
             ],
-            "outputHashing": "all"
+            "styles": [
+              "src/styles.css"
+            ]
           },
-          "development": {
-            "optimization": false,
-            "extractLicenses": false,
-            "sourceMap": true
-          }
-        },
-        "defaultConfiguration": "production"
-      },
-      "serve": {
-        "builder": "@angular/build:dev-server",
-        "configurations": {
-          "production": {
-            "buildTarget": "frontend:build:production"
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
           },
-          "development": {
-            "buildTarget": "frontend:build:development"
-          }
+          "defaultConfiguration": "production"
         },
-        "defaultConfiguration": "development",
-        "options": {
-          "proxyConfig": "src/proxy.conf.json",
-          "allowedHosts": [
-            ".trycloudflare.com",
-            "localhost",
-            "127.0.0.1"
-          ]
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "frontend:build:production"
+            },
+            "development": {
+              "buildTarget": "frontend:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "proxyConfig": "src/proxy.conf.json",
+            "allowedHosts": [
+              ".trycloudflare.com",
+              "localhost",
+              "127.0.0.1"
+            ]
+          }
         }
       }
     }
   }
-}
 }
