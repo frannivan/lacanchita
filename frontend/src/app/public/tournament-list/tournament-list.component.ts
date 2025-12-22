@@ -9,7 +9,7 @@ import { SoccerFieldWrapperComponent } from '../../shared/components/soccer-fiel
   standalone: true,
   imports: [CommonModule, RouterLink, SoccerFieldWrapperComponent],
   template: `
-    <app-soccer-field-wrapper title="Torneos Activos">
+    <app-soccer-field-wrapper title="🏆 Torneos La Canchita 2025 🏆">
         <div *ngIf="loading" class="text-center py-20 text-white text-xl animate-pulse">Cargando torneos...</div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
