@@ -48,7 +48,7 @@ export class TournamentListComponent implements OnInit {
 
   ngOnInit() {
     console.log('TournamentListComponent: Iniciando carga de torneos...');
-    console.log('TournamentListComponent: URL completa:', 'http://localhost:8080/api/public/torneos');
+    console.log('TournamentListComponent: Environment API URL:', this.api.getApiUrl());
 
     this.api.get<any[]>('public/torneos').subscribe({
       next: (data) => {

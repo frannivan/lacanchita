@@ -9,6 +9,10 @@ import { environment } from '../../../environments/environment';
 export class ApiService {
     private apiUrl = environment.apiUrl;
 
+    getApiUrl(): string {
+        return this.apiUrl;
+    }
+
     constructor(private http: HttpClient) { }
 
     get<T>(path: string, params?: any): Observable<T> {
