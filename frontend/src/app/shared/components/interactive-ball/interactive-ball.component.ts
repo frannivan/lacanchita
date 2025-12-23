@@ -98,6 +98,22 @@ export class InteractiveBallComponent implements AfterViewInit, OnDestroy {
         this.checkPaddleCollision();
     }
 
+    // Mobile: Handle Touch Events (Prevent Scroll + Move Shoe)
+    @HostListener('touchstart', ['$event'])
+    @HostListener('touchmove', ['$event'])
+    onTouch(e: TouchEvent) {
+        if (e.cancelable) {
+            e.preventDefault(); // STOP SCROLL
+        }
+
+        const touch = e.touches[0];
+        if (touch) {
+            this.mouse.x = touch.clientX;
+            this.mouse.y = touch.clientY;
+            this.checkPaddleCollision();
+        }
+    }
+
     resetGame() {
         this.resize(); // Ensure dimensions are fresh
         this.gameOver = false;
