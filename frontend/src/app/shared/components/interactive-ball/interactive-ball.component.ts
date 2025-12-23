@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
     standalone: true,
     imports: [CommonModule],
     template: `
-    <canvas #canvas class="absolute inset-0 w-full h-full pointer-events-auto" [style.cursor]="gameOver ? 'default' : 'none'" style="z-index: 0;"></canvas>
+    <canvas #canvas class="absolute inset-0 w-full h-full pointer-events-auto" [style.cursor]="gameOver ? 'default' : 'none'" style="z-index: 0; touch-action: none;"></canvas>
     <div class="absolute top-4 right-4 z-10 font-bold text-white text-xl drop-shadow-md select-none pointer-events-none">
       Dominadas: {{ score }}
     </div>
