@@ -32,10 +32,10 @@ import { InteractiveBallComponent } from '../../shared/components/interactive-ba
             Tu complejo deportivo de primer nivel. Torneos, partidos y la mejor comunidad de fútbol.
           </p>
           <div class="flex gap-4 pointer-events-auto">
-              <button [routerLink]="['/torneos']" class="px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg transition-all transform hover:scale-105 shadow-lg flex items-center gap-2">
+              <button [routerLink]="['/torneos']" class="px-6 py-3 md:px-8 md:py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg transition-all transform hover:scale-105 shadow-lg flex items-center gap-2">
                 <span>🏆</span> Ver Torneos
               </button>
-               <button [routerLink]="['/partidos/proximos']" class="px-8 py-4 bg-gray-800/80 hover:bg-gray-700 backdrop-blur-md text-white font-bold rounded-lg transition-all transform hover:scale-105 shadow-lg border border-gray-700">
+               <button [routerLink]="['/partidos/proximos']" class="px-6 py-3 md:px-8 md:py-4 bg-gray-800/80 hover:bg-gray-700 backdrop-blur-md text-white font-bold rounded-lg transition-all transform hover:scale-105 shadow-lg border border-gray-700">
                 📅 Partidos
               </button>
           </div>
