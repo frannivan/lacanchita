@@ -11,16 +11,20 @@ import { InteractiveBallComponent } from '../../shared/components/interactive-ba
     template: `
     <div class="min-h-screen bg-gray-900 font-sans relative">
       <!-- Hero Section with Interactive Game -->
-      <div class="relative h-[600px] overflow-hidden group">
-        <!-- Contrast Overlay (Gradient) - Background -->
-        <div class="absolute inset-0 bg-gradient-to-r from-gray-900/90 via-gray-900/40 to-emerald-900/60 pointer-events-none z-0"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent pointer-events-none z-0"></div>
+      <div class="relative min-h-[600px] overflow-hidden group flex flex-col md:block">
+        
+        <!-- Mobile: Game Container (Order 2) -->
+        <div class="block md:absolute md:inset-0 h-[400px] md:h-full w-full order-2 md:order-none relative bg-gray-900">
+             <!-- Contrast Overlay (Gradient) - Background -->
+            <div class="absolute inset-0 bg-gradient-to-r from-gray-900/90 via-gray-900/40 to-emerald-900/60 pointer-events-none z-0"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent pointer-events-none z-0"></div>
 
-        <!-- Game Layer (Above gradient, below content) -->
-        <app-interactive-ball class="absolute inset-0 z-10"></app-interactive-ball>
+            <!-- Game Layer -->
+            <app-interactive-ball class="absolute inset-0 z-10"></app-interactive-ball>
+        </div>
 
-        <!-- Content Layer -->
-        <div class="relative z-20 container mx-auto px-4 h-full flex flex-col justify-center items-start pt-20 pointer-events-none">
+        <!-- Content Layer (Mobile: Order 1) -->
+        <div class="relative z-20 container mx-auto px-4 flex flex-col justify-center items-start pt-20 pb-8 md:pb-0 md:h-full md:absolute md:inset-0 pointer-events-none order-1 md:order-none">
           <h1 class="text-5xl md:text-6xl font-black text-white mb-6 tracking-tight drop-shadow-2xl">
             LA <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-500">CANCHITA</span>
           </h1>
@@ -35,8 +39,6 @@ import { InteractiveBallComponent } from '../../shared/components/interactive-ba
                 📅 Partidos
               </button>
           </div>
-          
-          
         </div>
       </div>
 
