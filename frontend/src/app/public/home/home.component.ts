@@ -1,33 +1,97 @@
-import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../core/services/api.service';
 import { RouterModule } from '@angular/router';
+import { InteractiveBallComponent } from '../../shared/components/interactive-ball/interactive-ball.component';
 
 @Component({
     selector: 'app-home',
     standalone: true,
-    imports: [CommonModule, RouterModule],
+    imports: [CommonModule, RouterModule, InteractiveBallComponent],
     template: `
     <div class="min-h-screen bg-gray-900 font-sans relative">
-      <!-- Hero Section with Background -->
-      <!-- Since image generation failed, using a modern gradient that implies a sports vibe -->
-      <div class="relative h-[500px] overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-r from-gray-900 to-emerald-900"></div>
-        <div class="absolute inset-0 opacity-30 bg-[url('https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=2546&auto=format&fit=crop')] bg-cover bg-center mix-blend-overlay"></div>
-        
-        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
+      <!-- Hero Section with Interactive Game -->
+      <div class="relative h-[600px] overflow-hidden group">
+        <!-- Contrast Overlay (Gradient) - Background -->
+        <div class="absolute inset-0 bg-gradient-to-r from-gray-900/90 via-gray-900/40 to-emerald-900/60 pointer-events-none z-0"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent pointer-events-none z-0"></div>
 
-        <div class="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-start pt-20">
-          <h1 class="text-6xl md:text-7xl font-black text-white mb-6 tracking-tight drop-shadow-xl">
-            LA <span class="text-emerald-500">CANCHITA</span>
+        <!-- Game Layer (Above gradient, below content) -->
+        <app-interactive-ball class="absolute inset-0 z-10"></app-interactive-ball>
+
+        <!-- Content Layer -->
+        <div class="relative z-20 container mx-auto px-4 h-full flex flex-col justify-center items-start pt-20 pointer-events-none">
+          <h1 class="text-5xl md:text-6xl font-black text-white mb-6 tracking-tight drop-shadow-2xl">
+            LA <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-green-500">CANCHITA</span>
           </h1>
-          <p class="text-xl md:text-2xl text-gray-200 max-w-2xl font-light mb-8 drop-shadow-md">
+          <p class="text-lg md:text-xl text-gray-200 max-w-2xl font-light mb-8 drop-shadow-lg text-shadow">
             Tu complejo deportivo de primer nivel. Torneos, partidos y la mejor comunidad de fútbol.
           </p>
-          <button [routerLink]="['/torneos']" class="px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg transition-all transform hover:scale-105 shadow-lg">
-            Ver Torneos Activos
-          </button>
+          <div class="flex gap-4 pointer-events-auto">
+              <button [routerLink]="['/torneos']" class="px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg transition-all transform hover:scale-105 shadow-lg flex items-center gap-2">
+                <span>🏆</span> Ver Torneos
+              </button>
+               <button [routerLink]="['/partidos/proximos']" class="px-8 py-4 bg-gray-800/80 hover:bg-gray-700 backdrop-blur-md text-white font-bold rounded-lg transition-all transform hover:scale-105 shadow-lg border border-gray-700">
+                📅 Partidos
+              </button>
+          </div>
+          
+          
         </div>
+      </div>
+
+      <!-- Gallery Carousel Section -->
+      <div class="bg-black py-12 border-b border-gray-800 overflow-hidden">
+          <!-- Header (Contained) -->
+          <div class="container mx-auto px-4 mb-8">
+              <div class="flex items-center justify-between">
+                  <h2 class="text-3xl font-bold text-white tracking-wide border-l-4 border-emerald-500 pl-4">
+                      Galería <span class="text-gray-400 font-light">Destacada</span>
+                  </h2>
+              </div>
+          </div>
+
+          <!-- Carousel Container (Full Width) -->
+          <div class="relative w-full group">
+              
+              <!-- Left Button -->
+              <button (click)="scrollCarousel(-1)" class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-40 p-3 bg-black/80 hover:bg-emerald-600 text-white rounded-full backdrop-blur-md transition-colors shadow-xl border border-white/10">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                  </svg>
+              </button>
+
+              <!-- Scroll Area -->
+              <div #carouselContainer class="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory scroll-smooth no-scrollbar px-4 md:px-8 w-full">
+                  <div *ngFor="let photo of galleryPhotos" 
+                       class="min-w-[250px] md:min-w-[320px] flex-shrink-0 bg-gray-900 rounded-xl shadow-lg overflow-hidden snap-center hover:shadow-2xl hover:shadow-emerald-900/30 transition-all duration-300 group/card border border-gray-800 flex flex-col">
+                      
+                      <!-- Image Area -->
+                      <div class="h-48 relative overflow-hidden">
+                          <img [src]="photo.url" [alt]="photo.title" 
+                               class="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-110 opacity-90 group-hover/card:opacity-100">
+                          
+                          <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-60"></div>
+                      </div>
+
+                      <!-- Content Area -->
+                      <div class="p-5 flex-1 flex flex-col bg-gray-800">
+                          <span class="text-[10px] font-bold text-emerald-500 mb-1 uppercase tracking-wider">{{ photo.category }}</span>
+                          <h3 class="text-lg font-bold mb-1 text-white group-hover/card:text-emerald-400 transition-colors">{{ photo.title }}</h3>
+                          <div class="w-full h-1 bg-gray-700 rounded-full mt-auto overflow-hidden">
+                              <div class="h-full bg-emerald-500 w-0 group-hover/card:w-full transition-all duration-700 ease-out"></div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              <!-- Right Button -->
+              <button (click)="scrollCarousel(1)" class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-40 p-3 bg-black/80 hover:bg-emerald-600 text-white rounded-full backdrop-blur-md transition-colors shadow-xl border border-white/10">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                  </svg>
+              </button>
+          </div>
       </div>
 
       <!-- News Section -->
@@ -92,6 +156,45 @@ export class HomeComponent {
     cdr = inject(ChangeDetectorRef);
     noticias: any[] = [];
     loading = true;
+
+    // Gallery Carousel Data
+    galleryPhotos = [
+        {
+            url: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=1000&auto=format&fit=crop',
+            title: 'Gran Final 2024',
+            category: 'Partidos'
+        },
+        {
+            url: 'https://images.unsplash.com/photo-1526232761682-d26e03ac148e?q=80&w=1000&auto=format&fit=crop',
+            title: 'Nuestras Familias',
+            category: 'Comunidad'
+        },
+        {
+            url: 'https://images.unsplash.com/photo-1560272564-c83b66b1ad12?q=80&w=1000&auto=format&fit=crop',
+            title: 'Pequeños Campeones',
+            category: 'Infantil'
+        },
+        {
+            url: 'https://images.unsplash.com/photo-1529900748604-07564a03e7a6?q=80&w=1000&auto=format&fit=crop',
+            title: 'Celebración en Equipo',
+            category: 'Momentos'
+        }
+    ];
+    // No more carousel state needed for horizontal scroll
+    @ViewChild('carouselContainer') carouselContainer!: ElementRef;
+
+    scrollCarousel(direction: number) {
+        if (!this.carouselContainer) return;
+
+        const container = this.carouselContainer.nativeElement;
+        // Dynamic scroll amount: scroll one "page" or card width roughly
+        const scrollAmount = container.clientWidth * 0.8;
+
+        container.scrollBy({
+            left: direction * scrollAmount,
+            behavior: 'smooth'
+        });
+    }
 
     ngOnInit() {
         this.api.get<any[]>('public/noticias').subscribe({

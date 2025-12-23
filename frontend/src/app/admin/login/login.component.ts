@@ -2,16 +2,19 @@ import { Component, inject } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { InteractiveBallComponent } from '../../shared/components/interactive-ball/interactive-ball.component';
 
 @Component({
-    selector: 'app-login',
-    standalone: true,
-    imports: [FormsModule, CommonModule],
-    template: `
-    <div class="min-h-[calc(100vh-200px)] flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg">
+  selector: 'app-login',
+  standalone: true,
+  imports: [FormsModule, CommonModule, InteractiveBallComponent],
+  template: `
+    <app-interactive-ball></app-interactive-ball>
+    <div class="min-h-[calc(100vh-200px)] flex items-center justify-center bg-transparent py-12 px-4 sm:px-6 lg:px-8 relative z-10 pointer-events-none">
+      <div class="max-w-md w-full space-y-8 bg-white/90 backdrop-blur-sm p-8 rounded-xl shadow-lg pointer-events-auto">
         <div>
           <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Administración</h2>
+          <p class="text-center text-gray-500 mt-2 text-sm">¡No dejes caer el balón mientras te logueas!</p>
         </div>
         <form class="mt-8 space-y-6" (ngSubmit)="onSubmit()">
           <div class="rounded-md shadow-sm -space-y-px">
@@ -37,18 +40,18 @@ import { CommonModule } from '@angular/common';
   `
 })
 export class LoginComponent {
-    authService = inject(AuthService);
-    username = '';
-    password = '';
-    error = '';
+  authService = inject(AuthService);
+  username = '';
+  password = '';
+  error = '';
 
-    onSubmit() {
-        this.authService.login({ username: this.username, password: this.password })
-            .subscribe({
-                error: (err) => {
-                    console.error(err);
-                    this.error = 'Credenciales inválidas';
-                }
-            });
-    }
+  onSubmit() {
+    this.authService.login({ username: this.username, password: this.password })
+      .subscribe({
+        error: (err) => {
+          console.error(err);
+          this.error = 'Credenciales inválidas';
+        }
+      });
+  }
 }
