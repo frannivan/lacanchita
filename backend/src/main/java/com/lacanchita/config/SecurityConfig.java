@@ -75,8 +75,14 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of("*")); // Allow all origins (Cloudflare, etc.)
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        // Explicitly allow Vercel and Localhost. Wildcard patterns can be flaky with
+        // credentials.
+        configuration.setAllowedOrigins(Arrays.asList(
+                "https://lacanchita.vercel.app",
+                "http://localhost:4200",
+                "http://localhost:8080"));
+        configuration.setAllowedOriginPatterns(List.of("*")); // Fallback
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
